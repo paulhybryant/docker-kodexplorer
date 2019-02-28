@@ -15,4 +15,7 @@ RUN cd /tmp/ \
   && tar -xzvf /tmp/v4.37.tar.gz -C /var/www/html/ --strip-components=1 \
   && chown -R www-data:www-data /var/www/html
 
-VOLUME ["/var/www/html/plugins"]
+VOLUME ["/plugins"]
+
+COPY entrypoint.sh /usr/bin/
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
