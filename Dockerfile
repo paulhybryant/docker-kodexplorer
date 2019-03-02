@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd
 
 RUN cd /tmp/ \
-  && curl -L -O https://github.com/paulhybryant/kodexplorer/archive/v4.37.tar.gz \
-  && tar -xzvf /tmp/v4.37.tar.gz -C /var/www/html/ --strip-components=1 \
-  && chown -R www-data:www-data /var/www/html
+  && curl -L https://github.com/kalcaddle/KodExplorer/archive/4.39.tar.gz | tar -xz -C /var/www/html/ --strip-components=1 \
+  && chown -R www-data:www-data /var/www/html \
+  && curl -L https://github.com/paulhybryant/kodexplorer-plugins/archive/v1.0.tar.gz | tar -xz -C /var/www/html/plugins --strip-components=1
 
-VOLUME ["/plugins"]
+VOLUME ["/plugins" "/var/www/html/data/User"]
 
 COPY entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
