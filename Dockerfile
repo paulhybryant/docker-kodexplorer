@@ -1,4 +1,9 @@
-FROM php:apache
+ARG ARCH=docker.io
+FROM ${ARCH}/php:apache
+
+LABEL maintainer="paulhybryant@gmail.com"
+
+COPY qemu-aarch64-static /usr/bin/
 
 RUN apt-get update && apt-get install -y \
         git \
