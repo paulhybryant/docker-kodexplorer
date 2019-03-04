@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 RUN cd /tmp/ \
   && curl -L https://github.com/kalcaddle/KodExplorer/archive/4.39.tar.gz | tar -xz -C /var/www/html/ --strip-components=1 \
   && chown -R www-data:www-data /var/www/html \
-  && curl -L https://github.com/paulhybryant/kodexplorer-plugins/archive/v1.0.tar.gz | tar -xz -C /var/www/html/plugins --strip-components=1
+  && curl -L https://github.com/paulhybryant/kodexplorer-plugins/archive/v1.1.tar.gz | tar -xz -C /var/www/html/plugins --strip-components=1
 
 VOLUME ["/plugins" "/var/www/html/data/User"]
 
