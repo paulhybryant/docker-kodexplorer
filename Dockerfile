@@ -20,6 +20,8 @@ RUN cd /tmp/ \
   && chown -R www-data:www-data /var/www/html \
   && curl -L https://github.com/paulhybryant/kodexplorer-plugins/archive/v1.2.tar.gz | tar -xz -C /var/www/html/plugins --strip-components=1
 
+RUN apt-get install -y unoconv
+
 VOLUME ["/plugins" "/var/www/html/data/User"]
 
 COPY entrypoint.sh /usr/bin/
