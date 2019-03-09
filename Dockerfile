@@ -17,6 +17,8 @@ RUN cd /tmp/ \
   && curl -L https://github.com/kalcaddle/KodExplorer/archive/4.39.tar.gz | tar -xz -C /var/www/html/ --strip-components=1 \
   && chown -R www-data:www-data /var/www/html
 
+RUN apt-get install -y unoconv
+
 VOLUME ["/plugins" "/var/www/html/data/User"]
 
 COPY entrypoint.sh /usr/bin/
