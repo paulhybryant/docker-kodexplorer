@@ -20,7 +20,14 @@ RUN cd /tmp/ \
   && chown -R www-data:www-data /var/www/html \
   && curl -L https://github.com/paulhybryant/kodexplorer-plugins/archive/v1.2.tar.gz | tar -xz -C /var/www/html/plugins --strip-components=1
 
-RUN apt-get install -y unoconv
+RUN apt-get install -y apt-utils locales-all locales \
+  && locale-gen zh_CN.UTF-8
+ENV LANG zh_CN.UTF-8
+ENV LANGUAGE zh_CN:en_US:en
+ENV LC_ALL zh_CN.UTF-8
+
+RUN for i in $(seq 1 8); do mkdir -p "/usr/share/man/man${i}"; done
+RUN apt-get install -y default-jre libreoffice
 
 VOLUME ["/plugins" "/var/www/html/data/User"]
 
