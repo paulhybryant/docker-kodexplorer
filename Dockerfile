@@ -5,31 +5,29 @@ LABEL maintainer="paulhybryant@gmail.com"
 
 COPY qemu-aarch64-static /usr/bin/
 
+# Enable non-free and contrib repositories
+RUN dist=$(sed -n -r 's/VERSION=[^(]*\((.*)\).*/\1/p' /etc/os-release) \
+  && sed -i -e "s/\(.* $dist main\)/\1 contrib non-free/" -e "s/\(.* $dist\/updates main\)/\1 contrib non-free/" /etc/apt/sources.list \
+  && cat /etc/apt/sources.list \
+  && for i in $(seq 1 8); do mkdir -p "/usr/share/man/man${i}"; done
+
 RUN apt-get update && apt-get install -y \
+        apt-utils \
+        default-jre \
         git \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
+        libreoffice \
+        ttf-mscorefonts-installer \
         vim \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-RUN cd /tmp/ \
-  && curl -L https://github.com/kalcaddle/KodExplorer/archive/4.39.tar.gz | tar -xz -C /var/www/html/ --strip-components=1 \
-  && chown -R www-data:www-data /var/www/html \
-  && curl -L https://github.com/paulhybryant/kodexplorer-plugins/archive/v1.2.tar.gz | tar -xz -C /var/www/html/plugins --strip-components=1
-
-RUN apt-get install -y apt-utils locales-all locales \
-  && locale-gen zh_CN.UTF-8
-ENV LANG zh_CN.UTF-8
-ENV LANGUAGE zh_CN:en_US:en
-ENV LC_ALL zh_CN.UTF-8
-
-RUN for i in $(seq 1 8); do mkdir -p "/usr/share/man/man${i}"; done
-RUN apt-get install -y default-jre libreoffice
-
-VOLUME ["/plugins" "/var/www/html/data/User"]
+# Install Chinese Fonts
+RUN apt-get install -y xfonts-wqy ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-uming
+VOLUME ["/var/www/html"]
 
 COPY entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
