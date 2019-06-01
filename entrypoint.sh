@@ -4,11 +4,14 @@
   # ln -s ${p} /var/www/html/plugins/$(basename ${p})
 # done
 
-cd /var/www/html
+USER_ID=$(stat -c %u /var/www/html/app)
+GROUP_ID=$(stat -c %g /var/www/html/app)
+groupmod -g $GROUP_ID www-data
+usermod -u $USER_ID -g www-data www-data
+chown www-data:www-data -R /var/www/html
+chmod 777 -R /var/www/html
+
+export HOME=/var/www/html
+cd ${HOME}
 apache2-foreground
-
-# groupadd -g "$GROUP_ID" kod
-# useradd --shell /bin/bash -u "$USER_ID" -g kod -o -c "" -m kod
-# export HOME=/home/kod
-
-# exec /usr/bin/gosu kod "$@"
+# exec /usr/bin/gosu www-data apache2-foreground
