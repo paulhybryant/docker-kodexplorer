@@ -3,7 +3,7 @@ FROM ${ARCH}/php:apache
 
 LABEL maintainer="paulhybryant@gmail.com"
 
-COPY qemu-aarch64-static /usr/bin/
+COPY hooks/qemu-aarch64-static /usr/bin/
 
 # Enable non-free and contrib repositories
 RUN dist=$(sed -n -r 's/VERSION=[^(]*\((.*)\).*/\1/p' /etc/os-release) \
