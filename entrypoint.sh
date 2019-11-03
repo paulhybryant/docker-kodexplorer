@@ -14,4 +14,3 @@ chmod 777 -R /var/www/html
 export HOME=/var/www/html
 cd ${HOME}
 apache2-foreground
-# exec /usr/bin/gosu www-data apache2-foreground

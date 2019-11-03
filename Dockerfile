@@ -30,10 +30,6 @@ RUN apt-get install -y xfonts-wqy ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-u
 
 ADD kodexplorer4.40.tar.gz /var/www/html/
 
-# RUN if [ "${ARCH}" = "arm64v8" ]; then binarch="arm64"; else binarch="amd64"; fi && \
-  # curl -L "https://github.com/tianon/gosu/releases/download/1.11/gosu-${binarch}" -o /usr/bin/gosu && \
-  # chmod +x /usr/bin/gosu
-
 COPY entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 VOLUME ["/var/www/html/data/User"]
