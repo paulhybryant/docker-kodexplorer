@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libreoffice \
         ttf-mscorefonts-installer \
+        unzip \
         vim \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -28,7 +29,11 @@ RUN apt-get update && apt-get install -y \
 # Install Chinese Fonts
 RUN apt-get install -y xfonts-wqy ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-uming
 
-ADD kodbox.1.09.zip /var/www/html/
+ADD kodbox.1.09.zip /tmp
+RUN unzip /tmp/kodbox.1.09.zip -d /var/www/html/
+ADD doc2pdf_v1.1.zip /tmp
+RUN unzip /tmp/doc2pdf_v1.1.zip -d /var/www/html/plugins/
+RUN mv /var/www/html/plugins/kodexplorer-plugins-doc2pdf-1.1 /var/www/html/plugins/doc2pdf
 
 COPY entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
